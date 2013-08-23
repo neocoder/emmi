@@ -1,0 +1,63 @@
+<html>
+	<head>	
+		<script src="../lib/emmi.js"></script>
+		<script src="http://rawgithub.com/bestiejs/lodash/master/dist/lodash.js"></script>
+		<script src="http://rawgithub.com/bestiejs/benchmark.js/master/benchmark.js"></script>		
+		<script src="http://rawgithub.com/hij1nx/EventEmitter2/master/lib/eventemitter2.js"></script>
+		<script>
+
+			window.run = function(){
+
+				var ta = document.getElementById('log');
+				function log(str) {
+					ta.value += str + '\n';
+				}
+
+				var bnt = document.getElementById('btn');
+				btn.innerHTML = 'working...';
+
+				var suite = new Benchmark.Suite(),
+					em = new Emmi(),
+					emitter2 = new EventEmitter2({
+						wildcard: true, // should the event emitter use wildcards.
+						delimiter: '.', // the delimiter used to segment namespaces, defaults to `.`.
+					});
+
+				suite
+				  .add('EventEmitter2', function() {
+				    emitter2.on('test2.a.b', function () { 1==1; });
+				    emitter2.on('test2.a.*', function () { 2==2; });
+				    emitter2.on('test2.*', function () { 3==3; });
+				    emitter2.emit('test2.a.b');
+				    emitter2.removeAllListeners('test2.a.b');
+				    emitter2.removeAllListeners('test2.a.*');
+				    emitter2.removeAllListeners('test2.*');
+
+				  })
+				  .add('Emmi', function() {
+				    em.on('test2.a.b', function () { 1==1; });
+				    em.on('test2.a.*', function () { 2==2; });
+				    em.on('test2.*', function () { 3==3; });
+				    em.emit('test2.a.b');
+				    em.removeAllListeners('test2.a.b');
+				    em.removeAllListeners('test2.a.*');
+				    em.removeAllListeners('test2.*');
+
+				  })
+				  .on('cycle', function(event, bench) {
+				    log(String(event.target));
+				  })
+				  .on('complete', function() {
+				    log('Fastest is ' + this.filter('fastest').pluck('name'));
+				   	btn.innerHTML = 'Done';
+				  })
+				  .run({ async: true });
+			};
+
+		</script>
+	</head>
+	<body>
+		<button id="btn" onclick="javascript:run();">Run</button><br>
+		<textarea name="log" id="log" cols="60" rows="10"></textarea>
+	</body>
+</html>

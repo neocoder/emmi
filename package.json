@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "name": "emmi",
+  "description": "Small and cute event emitter with wildcard support",
+  "version": "0.0.1",
+  "author": {
+    "name": "Alex Ladyga",
+    "email": "neocoder@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "event",
+    "events",
+    "event emitter",
+    "eventemitter"
+  ],
+  "devDependencies": {
+    "mocha": "1.11.0",
+    "eventemitter2": "0.4.13",
+    "benchmark": "1.0.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-concat": "~0.3.0"    
+  },
+  "readme": "Emmi is a an event emitter library with support of widcards.",
+  "readmeFilename": "README.md",
+  "main": "./index.js",
+  "engines": {
+    "node": ">=0.6.19"
+  }
+}
