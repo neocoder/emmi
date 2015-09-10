@@ -4,6 +4,8 @@ var assert = require('assert');
 var EE = require('../lib/emmi').Emmi;
 var em = new EE;
 
+var emmi = require('../lib/emmi').emmi;
+
 describe('EE event emitter', function() {
 	describe('Event emitter', function() {
 		it('should have 1 event handler', function() {
@@ -137,5 +139,27 @@ describe('EE event emitter', function() {
 
 			assert(count === 3);
 		});						
+
+		it('should call 2 event handlers ( with catch all )', function() {
+			var em = new EE();
+			var a = 0, b = 0;
+			em.on('change.*', function() { a = 1; });
+			em.on('change.f', function() { b = 1; });
+			em.emit('change.f', 5, 6, 7);
+			assert.equal(a, 1);
+			assert.equal(b, 1);
+		});
+
+		it('should create emmi with the passed prototype', function(done) {
+			var myObj = {
+				shout: function(){
+					return 'Hey! Hey! Hey!';
+				}
+			};
+			var e = emmi(myObj);
+			assert.equal(e.shout(), 'Hey! Hey! Hey!')
+			e.on('x', function(){ done(); });
+			e.emit('x');
+		});		
 	});
 });
