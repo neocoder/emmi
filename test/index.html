@@ -1,11 +1,12 @@
 <html>
 	<head>	
 		<script src="../lib/emmi.js"></script>
-		<script src="http://rawgithub.com/bestiejs/lodash/master/dist/lodash.js"></script>
-		<script src="http://rawgithub.com/bestiejs/benchmark.js/master/benchmark.js"></script>		
-		<script src="http://rawgithub.com/hij1nx/EventEmitter2/master/lib/eventemitter2.js"></script>
+		<script xsrc="http://rawgithub.com/bestiejs/lodash/master/dist/lodash.js"></script>
+		<script xsrc="http://rawgithub.com/bestiejs/benchmark.js/master/benchmark.js"></script>		
+		<script xsrc="http://rawgithub.com/hij1nx/EventEmitter2/master/lib/eventemitter2.js"></script>
 		<script>
 
+			/*
 			window.run = function(){
 
 				var ta = document.getElementById('log');
@@ -53,6 +54,15 @@
 				  })
 				  .run({ async: true });
 			};
+			//*/
+
+			var em = new Emmi();
+
+			em.on('*', function(){
+				console.log('XXXXX');
+			});
+			debugger;
+			em.emit('add');			
 
 		</script>
 	</head>

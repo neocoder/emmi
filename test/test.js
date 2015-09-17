@@ -6,6 +6,9 @@ var em = new EE;
 
 var emmi = require('../lib/emmi').emmi;
 
+// var iit = it;
+// it = function(){};
+
 describe('EE event emitter', function() {
 	describe('Event emitter', function() {
 		it('should have 1 event handler', function() {
@@ -38,7 +41,7 @@ describe('EE event emitter', function() {
 				};
 
 			em.on('a', function() {
-			  res.a += 1;
+				res.a += 1;
 			});
 
 			em.on('a', function() {
@@ -138,7 +141,39 @@ describe('EE event emitter', function() {
 			em.many('a', 4, function() {});
 
 			assert(count === 3);
-		});						
+		});					
+
+		it('should call event handler binded with wildcard selector', function(done){
+			var em = new EE();
+
+			em.on('*', function(){
+				done();
+			});
+			em.emit('add');
+		});
+
+		it('should call event handler binded with wildcard selector', function(done){
+			var em = new EE();
+
+			var c = 0, expectedCalls = 2;
+			function check() {
+				c++;
+				if ( c === expectedCalls ) {
+					done();
+				} else if ( c > expectedCalls ) {
+					console.error('Callback fired '+c+' times. Expected '+expectedCalls);
+				}
+			}
+
+			em.on('a.*', function(){
+				check();
+			});
+
+			em.on('*', function(){
+				check();
+			});
+			em.emit('a.b', 123);
+		});		
 
 		it('should call 2 event handlers ( with catch all )', function() {
 			var em = new EE();
