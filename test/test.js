@@ -1,3 +1,4 @@
+'use strict';
 var mocha = require('mocha');
 var assert = require('assert');
 
@@ -6,8 +7,10 @@ var em = new EE;
 
 var emmi = require('../lib/emmi').emmi;
 
-// var iit = it;
-// it = function(){};
+/*
+var iit = it;
+it = function(){}; 
+//*/
 
 describe('EE event emitter', function() {
 	describe('Event emitter', function() {
@@ -66,10 +69,10 @@ describe('EE event emitter', function() {
 			em.emit('a.c.d');
 			em.emit('a.c.d.e');
 
-			assert(res.a === 2);
-			assert(res.ab === 1);
-			assert(res.a_asterix === 4);
-			assert(res.acd_asterix === 1);			
+			assert.equal(res.a, 2);
+			assert.equal(res.ab, 1);
+			assert.equal(res.a_asterix, 5);
+			assert.equal(res.acd_asterix, 1);			
 		});
 
 		it('should left with 1 event handler', function() {
@@ -195,6 +198,24 @@ describe('EE event emitter', function() {
 			assert.equal(e.shout(), 'Hey! Hey! Hey!')
 			e.on('x', function(){ done(); });
 			e.emit('x');
+		});		
+
+		it('shoudl call asterics event handler on root event call', function(done) {
+			// should call 'a.*' handler on emitting 'a'
+
+			var em = new EE(),
+				res = {
+					a: 0,
+					ab: 0,
+					a_asterix: 0,
+					acd_asterix: 0
+				};
+
+			em.on('a.*', function(v) {
+			assert(v === 1);
+			  done()
+			});
+			em.emit('a', 1);
 		});		
 	});
 });
